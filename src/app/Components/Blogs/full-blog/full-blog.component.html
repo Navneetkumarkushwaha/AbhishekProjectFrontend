@@ -1,0 +1,22 @@
+<!-- blog-detail.component.html -->
+<div class="blog-detail-container">
+    <div *ngIf="blog" class="blog-card">
+      <h2>{{ blog.title }}</h2>
+      <p>{{ blog.content }}</p>
+      <p><strong>Author:</strong> {{ blog.author }}</p>
+      <p><strong>Tags:</strong> {{ blog.tags }}</p>
+      
+      <div class="div-abc" *ngIf="this.showAdminBoard">
+        <div>
+          <button class="btn btn-success" (click)="UpdateBlog()"> Update</button>
+        </div>
+  
+        <div class="update-btn">
+          <button class="btn btn-danger" (click)="DeleteBlog()"> Delete</button>
+        </div>  
+
+      </div>
+      
+    </div>
+  </div>
+  

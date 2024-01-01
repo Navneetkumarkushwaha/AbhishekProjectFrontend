@@ -1,0 +1,57 @@
+/* Basic styling */
+.container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .header {
+    flex: 1;
+  }
+  
+  .admin-button {
+    flex-shrink: 0;
+    margin-left: 10px;
+  }
+  
+  .blog-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .card {
+    width: 18rem;
+    margin: 0 0 20px 0;
+  }
+  
+  /* Responsive styling */
+  @media (max-width: 1200px) {
+    .container {
+      flex-direction: column;
+      align-items: stretch;
+    }
+  
+    .admin-button {
+      margin-top: 10px;
+      margin-left: 0;
+    }
+  
+    .card {
+      width: calc(33.33% - 20px);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .card {
+      width: calc(50% - 20px);
+    }
+  }
+  
+  @media (max-width: 576px) {
+    .card {
+      width: calc(100% - 20px);
+    }
+  }
+  

@@ -1,0 +1,51 @@
+.sidenav {
+
+    height: 43vh;
+    width: 18%;
+    position: fixed;
+    z-index: 1;
+    top: 71px;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    transition: background-color 0.3s ease;
+}
+
+
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 18px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+    border-bottom: 1px solid #ddd;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+
+.sidenav::-webkit-scrollbar {
+  width: 0 !important;
+  display: none;
+}
+
+
+
+/* app-header.component.css */
+
+
+
+
+
+@media (max-width: 576px) {
+  .sidenav {
+    width: 100%;
+    text-align: center;
+  }
+
+}

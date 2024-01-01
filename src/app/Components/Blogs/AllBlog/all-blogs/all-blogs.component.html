@@ -1,0 +1,44 @@
+<!-- <div style="display: flex;" >
+  
+  <div class="abc" >
+    <h1>Blogs</h1>
+  </div>
+
+  <div class="btn-class" *ngIf="showAdminBoard">
+    <label class="btn btn-outline-primary" for="btncheck1" (click)="createNewBlog()">Create New Blog</label>
+  </div>
+
+</div>
+
+<div class="div-class">
+  <div *ngFor="let blog of List" class="card" style="width: 18rem; margin-bottom: 10px;">
+    <div class="card-body">
+      <h5 class="card-title">{{ blog.title }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{ blog.author }}</h6>
+      <p class="card-text">{{ blog.content }}</p>
+      <label class="btn btn-outline-primary" (click)="setBlogId(blog.id,blog)">full blog</label>
+    </div>
+  </div>
+</div> -->
+
+
+<div class="container">
+  <div class="header">
+    <h1>Blogs</h1>
+  </div>
+
+  <div class="admin-button" *ngIf="showAdminBoard">
+    <label class="btn btn-outline-primary" for="btncheck1" (click)="createNewBlog()">Create New Blog</label>
+  </div>
+</div>
+
+<div class="blog-list">
+  <div *ngFor="let blog of List" class="card">
+    <div class="card-body">
+      <h5 class="card-title">{{ blog.title }}</h5>
+      <h6 class="card-subtitle mb-2 text-muted">{{ blog.author }}</h6>
+      <p class="card-text">{{ blog.content }}</p>
+      <label class="btn btn-outline-primary" (click)="setBlogId(blog.id, blog)">Full Blog</label>
+    </div>
+  </div>
+</div>

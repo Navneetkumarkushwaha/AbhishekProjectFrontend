@@ -1,0 +1,72 @@
+
+
+ul{
+	list-style: none;
+}
+.footer{
+	margin-top: 350px;
+
+	background-color: #24262b;
+   padding: 70px 0;
+}
+
+.footer-col h4{
+	font-size: 18px;
+	color: #ffffff;
+	text-transform: capitalize;
+	margin-bottom: 35px;
+	font-weight: 500;
+	position: relative;
+}
+.footer-col h4::before{
+	content: '';
+	position: absolute;
+	left:3px;
+	bottom: -10px;
+	background-color: #e91e63;
+	height: 2px;
+	box-sizing: border-box;
+	width: 40px;
+}
+
+/* .footer-col ul li a{
+	font-size: 16px;
+	text-transform: capitalize;
+	color: #ffffff;
+	text-decoration: none;
+	font-weight: 300;
+	color: #bbbbbb;
+	display: block;
+	transition: all 0.3s ease;
+} */
+.footer-col ul li a:hover{
+	color: #ffffff;
+	padding-left: 8px;
+}
+
+
+
+.footer .footer-socila-icon a {
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: #dfdfdf;
+
+  margin-right: 15px;
+  font-size: 22px;
+}
+
+
+
+
+@media (max-width: 576px) {
+
+  .footer{
+    margin-top: 50px;
+    height:100%;
+    background-color: #24262b;
+     padding: 70px 0;
+  }
+}

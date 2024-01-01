@@ -1,0 +1,15 @@
+<h1></h1>
+<div *ngIf="!isSaved">
+    <h2>Feedback Form</h2>
+    <textarea [(ngModel)]="userFeedback" placeholder="Type your feedback here..."></textarea>
+    <button (click)="submitFeedback()">Submit Feedback</button>
+</div>
+<div class="alert alert-success" role="alert" *ngIf="isSaved">
+    <h4 class="alert-heading">Thanks for feedback</h4>
+    <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so
+        that you can see how spacing within an alert works with this kind of content.</p>
+    <hr>
+    <div class="update-btn">
+        <button class="btn btn-success" (click)="AllBlog()">Go to All Blogs</button>
+      </div> 
+</div>

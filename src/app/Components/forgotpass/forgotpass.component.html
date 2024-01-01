@@ -1,0 +1,69 @@
+<div class="col-md-12">
+  <div class="card card-container">
+    <form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate>
+      <div class="form-group" *ngIf="!this.otp_sent">
+        <label for="email">Email </label>
+        <input type="text" class="form-control" [(ngModel)]="email" name="email" required #emailInput="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && emailInput.invalid }" />
+        <div *ngIf="emailInput.invalid && f.submitted" class="invalid-feedback">
+          Email is required!
+        </div>
+      </div>
+
+      <div class="form-group" *ngIf="!this.otp_sent  && !this.otp_verified">
+        <button type="submit" class="btn btn-primary btn-block">
+          Send OTP
+        </button>
+      </div>
+
+    </form>
+
+    <form name="form2" (ngSubmit)="f.form.valid" #f="ngForm" *ngIf="this.otp_sent && !this.otp_verified" novalidate>
+      
+      <div class="form-group" >
+        <label for="otp">Enter Otp </label>
+        <input type="text" class="form-control" [(ngModel)]="user_otp" name="user_otp" required #user_otpInput="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && user_otpInput.invalid }" />
+        <div *ngIf="user_otpInput.invalid && f.submitted" class="invalid-feedback">
+          Otp is required!
+        </div>
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block" (click)="verifyOtp()">
+          Verify otp
+        </button>
+      </div>
+    </form>
+
+    <form name="form3" (ngSubmit)="f.form.valid" #f="ngForm" *ngIf="this.otp_verified" novalidate>
+  
+      <div class="form-group" >
+        <label for="password">Password </label>
+        <input type="text" class="form-control" [(ngModel)]="password" name="password" required #passwordInput="ngModel"
+          [ngClass]="{ 'is-invalid': f.submitted && password.invalid }" />
+        <div *ngIf="password.invalid && f.submitted" class="invalid-feedback">
+          password is required!
+        </div>
+      </div>
+
+      <div class="form-group" *ngIf="this.otp_verified">
+        <label for="con_password">Confirm Password </label>
+        <input type="text" class="form-control" [(ngModel)]="con_password" name="con_password" required
+          #con_passwordInput="ngModel" [ngClass]="{ 'is-invalid': f.submitted && con_password.invalid }" />
+        <div *ngIf="con_password.invalid && f.submitted" class="invalid-feedback">
+          Confirm password is required!
+        </div>
+      </div>
+
+      <div class="form-group" *ngIf="this.otp_verified">
+        <button type="submit" class="btn btn-primary btn-block" (click)="updatepass()">
+          Update Password
+        </button>
+      </div>
+
+    </form>
+
+
+  </div>
+</div>

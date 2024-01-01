@@ -1,0 +1,46 @@
+<div class="container" *ngIf="this.showAdminBoard">
+    <form (ngSubmit)="saveQuestion()">
+        <label for="questionTitle">Question Title:</label>
+        <input type="text" [(ngModel)]="questionTitle" name="questionTitle" required>
+
+        <label for="opt1">Option 1:</label>
+        <input type="text" name="opt1" [(ngModel)]="opt1" required>
+
+        <label for="opt2">Option 2:</label>
+        <input type="text" name="opt2" [(ngModel)]="opt2" required>
+
+        <label for="opt3">Option 3:</label>
+        <input type="text" name="opt3" [(ngModel)]="opt3" required>
+
+        <label for="opt4">Option 4:</label>
+        <input type="text" name="opt4" [(ngModel)]="opt4" required>
+
+        <label for="optAns">Correct Option:</label>
+        <input type="text" name="optAns" [(ngModel)]="optAns" required>
+
+        <!-- Repeat the pattern for other input fields -->
+
+        <button type="submit" *ngIf="!this.update">Save Question</button>
+        <button type="submit" *ngIf="this.update">Update Question</button>
+    </form>
+
+</div>
+
+<div id="questions">
+    <div *ngFor="let question of questionsData" class="question-card">
+        <div class="question-title">{{ question.questionTitle}}</div>
+        <div class="options-container">
+            <div>{{question.opt1}}</div>
+            <div>{{question.opt2}}</div>
+            <div>{{question.opt3}}</div>
+            <div>{{question.opt4}}</div>
+        </div>
+        <div class="correct-option">Correct Option: {{ question.optAns }}</div>
+        <div *ngIf="this.showAdminBoard" style="display: flex;">
+            <button class="btn btn-success" (click)="deleteQuestion(question.id)">Delete</button>
+            <button (click)="updateQuestion(question)">Update</button>
+        </div>
+
+    </div>
+
+</div>

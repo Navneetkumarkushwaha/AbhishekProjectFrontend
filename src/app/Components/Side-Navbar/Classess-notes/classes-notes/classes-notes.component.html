@@ -1,0 +1,9 @@
+<app-pdfs></app-pdfs>
+<div class="box">
+    <h4>class :- {{this.classNumber}}</h4>
+    <h3 *ngIf="this.SubjectName">{{this.SubjectName}}</h3>
+    <button class="white-no-underline btn btn-info" (click)="navigateToNotes()">Classes</button>
+    <button class="white-no-underline btn btn-success" (click)="navigateToNotes()">Notes</button>
+    <button *ngIf="this.classNumber && this.SubjectName && !this.payment_success && !showUpladBoard" class="white-no-underline btn btn-success"
+        (click)="payNow()">Pay now</button>
+</div>
