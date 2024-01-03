@@ -1,23 +1,29 @@
+
+
+
 <div class="container" *ngIf="this.showAdminBoard">
     <form (ngSubmit)="saveQuestion()">
         <label for="questionTitle">Question Title:</label>
-        <input type="text" [(ngModel)]="questionTitle" name="questionTitle" required>
+        <input type="text" [(ngModel)]="questionTitle" name="questionTitle" required (keydown.enter)="$event.preventDefault()">
 
         <label for="opt1">Option 1:</label>
-        <input type="text" name="opt1" [(ngModel)]="opt1" required>
+        <input type="text" name="opt1" [(ngModel)]="opt1" required (keydown.enter)="$event.preventDefault()">
 
         <label for="opt2">Option 2:</label>
-        <input type="text" name="opt2" [(ngModel)]="opt2" required>
+        <input type="text" name="opt2" [(ngModel)]="opt2" required (keydown.enter)="$event.preventDefault()">
 
         <label for="opt3">Option 3:</label>
-        <input type="text" name="opt3" [(ngModel)]="opt3" required>
+        <input type="text" name="opt3" [(ngModel)]="opt3" required (keydown.enter)="$event.preventDefault()">
 
         <label for="opt4">Option 4:</label>
-        <input type="text" name="opt4" [(ngModel)]="opt4" required>
+        <input type="text" name="opt4" [(ngModel)]="opt4" required (keydown.enter)="$event.preventDefault()">
 
         <label for="optAns">Correct Option:</label>
-        <input type="text" name="optAns" [(ngModel)]="optAns" required>
+        <input type="text" name="optAns" [(ngModel)]="optAns" required (keydown.enter)="$event.preventDefault()">
 
+        <label for="optAns">Correct Option:</label>
+        <!-- <input type="text" class="inputDes"   name="optAns" [(ngModel)]="description" required (keydown.enter)="$event.preventDefault()"> -->
+        <textarea class="inputDes" name="description" [(ngModel)]="description" required (keydown.enter)="$event.preventDefault()"></textarea>
         <!-- Repeat the pattern for other input fields -->
 
         <button type="submit" *ngIf="!this.update">Save Question</button>
@@ -26,21 +32,34 @@
 
 </div>
 
-<div id="questions">
-    <div *ngFor="let question of questionsData" class="question-card">
-        <div class="question-title">{{ question.questionTitle}}</div>
-        <div class="options-container">
-            <div>{{question.opt1}}</div>
-            <div>{{question.opt2}}</div>
-            <div>{{question.opt3}}</div>
-            <div>{{question.opt4}}</div>
-        </div>
-        <div class="correct-option">Correct Option: {{ question.optAns }}</div>
-        <div *ngIf="this.showAdminBoard" style="display: flex;">
-            <button class="btn btn-success" (click)="deleteQuestion(question.id)">Delete</button>
-            <button (click)="updateQuestion(question)">Update</button>
-        </div>
-
+<div id="questions" *ngIf="this.showAdminBoard">
+  <div *ngFor="let question of questionsData" class="question-card">
+    <div class="question-title">{{ question.questionTitle }}</div>
+    <div *ngIf="this.showAdminBoard">
+      <button (click)="deleteQuestion(question.id)">Delete</button>
+      <button (click)="updateQuestion(question)">Update</button>
     </div>
-
+  </div>
 </div>
+
+<div id="questions">
+<h2>History Chapter 1 Quiz</h2>
+<form (submit)="submitQuiz()">
+  <div class="question-card" *ngFor="let question of quizQuestions; let i = index">
+    <label for="q{{ i }}" class="question-title">{{ i + 1 }}. {{ question.questionText}}</label>
+    <div *ngFor="let option of question.options; let j = index">
+      <input type="radio" [id]="'q' + i + 'option' + j" [name]="'q' + i" [value]="option.value" [(ngModel)]="userAnswers['q' + i]">
+      <label [for]="'q' + i + 'option' + j">{{" "+ option.label }}</label>
+    </div>
+    <div *ngIf="showAnswers">
+      <p> correct Answer :-  {{question.correctAnswer}}</p>
+      <p> Description :-  {{question.description}}</p>
+    </div>
+  </div>
+  <div *ngIf="showScore">
+    <p>Your Score: {{ calculateScore() }} out of {{ quizQuestions.length }}</p>
+  </div>
+  <button type="submit">Submit Quiz</button>
+</form>
+</div>
+  

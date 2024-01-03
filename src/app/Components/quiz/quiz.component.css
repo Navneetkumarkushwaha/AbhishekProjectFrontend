@@ -74,10 +74,48 @@ button:hover {
     font-weight: bold;
 }
 
+.options-container div {
+    cursor: pointer;
+    padding: 8px;
+    margin: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .selected {
+    background-color: #3498db;
+    color: #fff;
+  }
+  
+  .correct {
+    background-color: #2ecc71;
+    color: #fff;
+  }
+  
+  .incorrect {
+    background-color: #e74c3c;
+    color: #fff;
+  }
+  
+  .result {
+    margin-top: 10px;
+  }
+
+.inputDes{
+    width: 360px; /* Set the desired width */
+    height: 200px; /* Set the desired height */
+    font-size: 16px;
+}
+
 
 /* Responsive Styles */
 @media screen and (max-width: 600px) {
     .container {
-        width: 50%; /* Adjusted width for smaller screens */
-    }
+        width: 90%;
+      }
+    .options-container div {
+        width: 100%;
+      }
 }
+
+

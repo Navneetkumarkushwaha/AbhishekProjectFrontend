@@ -1,30 +1,62 @@
+import { literalMap } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 
 import { QuizserviceService } from '@app/_services/QuizService/quizservice.service';
-import { StorageService} from '@app/_services/storage.service'
+import { StorageService } from '@app/_services/storage.service';
+
+interface OriginalQuestion {
+  id: number;
+  opt1: string;
+  opt2: string;
+  opt3: string;
+  opt4: string;
+  optAns: string;
+  questionTitle: string;
+  description:string;
+}
+
+interface ConvertedQuestion {
+  questionText: string;
+  options: { label: string; value: string }[];
+  correctAnswer: string;
+  description:string;
+}
+
+
 
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
   styleUrls: ['./quiz.component.css']
 })
-export class QuizComponent implements OnInit{
+export class QuizComponent implements OnInit {
 
-
+  //correctAnswer = '';
   questionTitle: string = '';
   opt1: string = '';
   opt2: string = '';
   opt3: string = '';
   opt4: string = '';
   optAns: string = '';
-  questionsData:any;
-  id :any;
-  update:boolean = false;
+  description:string = '';
+
+  questionsData: any;
+  id: any;
+  update: boolean = false;
   private roles: string[] = [];
   isLoggedIn = false;
   showAdminBoard = false;
+  selectedOption: string | null = null;
+  showResult = false;
+  isCorrect = false;
+  selectedOptions: { [key: string]: string } = {}; // Map to store selected options for each question
+  //correctAnswers: { [key: string]: string } = {}; // Map to store correct answers for each question
+  quizForm: any;
+  quizQuestions: any;
 
-  constructor(private quizService: QuizserviceService,private storageService:StorageService) { }
+  constructor(private quizService: QuizserviceService, private storageService: StorageService) { }
+
+
 
   ngOnInit(): void {
 
@@ -38,7 +70,7 @@ export class QuizComponent implements OnInit{
       //console.log(this.showAdminBoard);
 
     }
-    
+
     this.loadQuestions();
 
   }
@@ -47,6 +79,13 @@ export class QuizComponent implements OnInit{
     this.quizService.getAllQuestions().subscribe(
       questions => {
         this.questionsData = questions;
+        //console.log(this.questionsData);
+        const convertedquizQuestions: ConvertedQuestion[] = this.convertToNewFormat(this.questionsData);
+        
+        this.quizQuestions = convertedquizQuestions;
+        //console.log(this.quizQuestions);
+
+
       },
       error => {
         console.error('Error fetching questions:', error);
@@ -62,10 +101,12 @@ export class QuizComponent implements OnInit{
       opt3: this.opt3,
       opt4: this.opt4,
       optAns: this.optAns,
-      id:this.id
+      id: this.id,
+      description:this.description
+
     };
 
-    if(this.id){
+    if (this.id) {
 
       this.quizService.updateQuestion(questionData).subscribe(
         () => {
@@ -73,7 +114,7 @@ export class QuizComponent implements OnInit{
           this.loadQuestions();
         },
         error => {
-          if(error.status === 200){
+          if (error.status === 200) {
             this.update = false;
             alert('Updated successfully');
             this.loadQuestions();
@@ -83,8 +124,9 @@ export class QuizComponent implements OnInit{
             this.opt3 = '';
             this.opt4 = '';
             this.optAns = '';
+            this.description = '';
             this.ngOnInit();
-            if(questionData.id == this.id){
+            if (questionData.id == this.id) {
               this.id = null;
             }
           }
@@ -92,10 +134,10 @@ export class QuizComponent implements OnInit{
         }
       );
 
-    }else{
+    } else {
       this.quizService.saveQuestion(questionData).subscribe(
         response => {
-  
+
         },
         error => {
           //console.error('Error saving question:', error.status);
@@ -107,8 +149,9 @@ export class QuizComponent implements OnInit{
             this.opt3 = '';
             this.opt4 = '';
             this.optAns = '';
+            this.description = '';
             this.ngOnInit();
-            
+
             // Optionally, reset the form fields or perform other actions.
           }
           // Handle error scenarios
@@ -122,9 +165,10 @@ export class QuizComponent implements OnInit{
     this.quizService.deleteQuestion(id).subscribe(
       () => {
         // Reload questions after deletion
+        alert("Deleted successfully");
         this.loadQuestions();
         this.update = false;
-        if(id == this.id){
+        if (id == this.id) {
           this.id = null;
         }
       },
@@ -134,8 +178,8 @@ export class QuizComponent implements OnInit{
     );
   }
 
-  updateQuestion(questionData:any):void{
-    
+  updateQuestion(questionData: any): void {
+
     this.update = true;
 
     // console.log(questionData.questionTitle);
@@ -152,7 +196,67 @@ export class QuizComponent implements OnInit{
     this.opt4 = questionData.opt4;
     this.optAns = questionData.optAns;
     this.id = questionData.id;
+    this.description = questionData.description;
 
   }
+
+  checkAnswer(questionId: string, selectedOption: string): void {
+    if (!this.showResult) {
+      this.selectedOptions[questionId] = selectedOption;
+      this.showResult = true;
+    }
+  }
+
+  userAnswers: { [key: string]: string } = {};
+  showAnswers = false;
+  showScore = false; // Added property
+
+
+
+  submitQuiz() {
+    //console.log('User Answers:', this.userAnswers);
+    this.showAnswers = true;
+    this.showScore = true; // Toggle to show score
+  }
+
+  calculateScore(): number {
+    let score = 0;
+    this.quizQuestions.forEach((question: ConvertedQuestion, i: number) => {
+      const userAnswer = this.userAnswers['q' + i];
+      //console.log(question.correctAnswer);
+      //console.log(userAnswer);
+      if (userAnswer === question.correctAnswer) {
+        console.log("hi")
+        score++;
+      }
+      
+    });
+
+    return score;
+  }
+
+
+
+  convertToNewFormat(originalQuestions: OriginalQuestion[]): ConvertedQuestion[] {
+    return originalQuestions.map((originalQuestion) => {
+      
+      const { id, opt1, opt2, opt3, opt4, optAns, questionTitle,description} = originalQuestion;
+
+      const options = [
+        { label: opt1, value: 'a' },
+        { label: opt2, value: 'b' },
+        { label: opt3, value: 'c' },
+        { label: opt4, value: 'd' }, // Adjust as needed based on your options
+      ];
+
+      return {
+        questionText: questionTitle,
+        options,
+        correctAnswer: optAns.toLowerCase(),
+        description
+      };
+    });
+  }
+
 
 }
