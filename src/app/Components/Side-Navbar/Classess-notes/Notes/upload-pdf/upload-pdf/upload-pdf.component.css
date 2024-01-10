@@ -1,9 +1,24 @@
 .box {
-    margin-left: 270px; /* Adjust margin to accommodate the sidebar width */
+    margin-left: 0px; /* Adjust margin to accommodate the sidebar width */
     padding: 15px;
     border: 1px solid #ddd;
     margin-top: 50px;
 }
 .text-area{
     width: 140%;
+    height:100px;
+}
+
+.filename{
+    width: 140%;
+}
+@media (max-width: 767px) {
+    .box {
+        margin-left: 0;
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+
+    .text-area {
+        width: 100%; /* Set to 100% for better fit on small screens */
+    }
 }

@@ -11,11 +11,12 @@ export class PdfsComponent {
 
   constructor(private router: Router, private sharedService: SharedService) { }
 
-  setClassNumberAndNavigate(classNumber: number): void {
+  setClassNumberAndNavigate(classNumber: number,subject:string): void {
     // Set the class number in the shared service
     this.sharedService.setClassNumber(classNumber);
+    this.sharedService.setSubjectName(subject);
 
     // Navigate to the 'classes-notes' route with the specified class number
-    this.router.navigate(['/classes-notes']);
+    this.router.navigate(['/upload-pdf']);
   }
 }

@@ -29,6 +29,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterComponent } from './Components/footer/footer.component';
 import { ForgotpassComponent } from './Components/forgotpass/forgotpass.component';
 import { QuizComponent } from './Components/quiz/quiz.component';
+import { RefundpolicyComponent } from './Components/Policies/refundpolicy/refundpolicy.component';
+import { PrivacyPolicyComponent } from './Components/Policies/privacy-policy/privacy-policy.component';
+import { TermsAndServicesComponent } from './Components/Policies/terms-and-services/terms-and-services.component';
+import { ContactUsComponent } from './Components/Policies/contact-us/contact-us.component';
 
 
 
@@ -55,7 +59,11 @@ import { QuizComponent } from './Components/quiz/quiz.component';
     FeedbackComponent,
     FooterComponent,
     ForgotpassComponent,
-    QuizComponent
+    QuizComponent,
+    RefundpolicyComponent,
+    PrivacyPolicyComponent,
+    TermsAndServicesComponent,
+    ContactUsComponent
   ],
   imports: [
     BrowserModule,

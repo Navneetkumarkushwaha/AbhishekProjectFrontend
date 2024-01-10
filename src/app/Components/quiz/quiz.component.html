@@ -1,34 +1,76 @@
+<div class="scroll-nav-wrapper">
+  <div class="scroll-nav-item">
+    <a (click)="setClassNumberSubject('6','History')">Class 6 History</a>
+  </div>
+  <div class="scroll-nav-item">
+    Class 6 Geography
+  </div>
+  <div class="scroll-nav-item">
+    Class 6 Polity
+  </div>
+  <div class="scroll-nav-item">
+    Class 7 History
+  </div>
+  <div class="scroll-nav-item">
+    Class 7 Geography
+  </div>
+  <div class="scroll-nav-item">
+    Class 7 Polity
+  </div>
+  <div class="scroll-nav-item">
+    Class 8 History
+  </div>
+  <div class="scroll-nav-item">
+    Class 8 Geography
+  </div>
+  <div class="scroll-nav-item">
+    Class 8 Polity
+  </div>
+
+</div>
+
+<div class="setchapter" *ngIf="!this.ischapterAndTitle">
+  <div *ngFor="let chapter of this.chaptersData" class="question-card">
+    <div class="question-title"><a (click)="setchapter(chapter.chapter,chapter.title)"> Chapter {{ chapter.chapter }} {{ chapter.title }}</a></div>
+  </div>
+</div>
 
 
 
-<div class="container" *ngIf="this.showAdminBoard">
-    <form (ngSubmit)="saveQuestion()">
-        <label for="questionTitle">Question Title:</label>
-        <input type="text" [(ngModel)]="questionTitle" name="questionTitle" required (keydown.enter)="$event.preventDefault()">
+<div class="container" *ngIf="this.showAdminBoard && this.subject && this.classNumber">
+  <form (ngSubmit)="saveQuestion()">
+    <label for="questionTitle">Question Title:</label>
+    <input type="text" [(ngModel)]="questionTitle" name="questionTitle" required
+      (keydown.enter)="$event.preventDefault()">
 
-        <label for="opt1">Option 1:</label>
-        <input type="text" name="opt1" [(ngModel)]="opt1" required (keydown.enter)="$event.preventDefault()">
+    <label for="opt1">Option 1:</label>
+    <input type="text" name="opt1" [(ngModel)]="opt1" required (keydown.enter)="$event.preventDefault()">
 
-        <label for="opt2">Option 2:</label>
-        <input type="text" name="opt2" [(ngModel)]="opt2" required (keydown.enter)="$event.preventDefault()">
+    <label for="opt2">Option 2:</label>
+    <input type="text" name="opt2" [(ngModel)]="opt2" required (keydown.enter)="$event.preventDefault()">
 
-        <label for="opt3">Option 3:</label>
-        <input type="text" name="opt3" [(ngModel)]="opt3" required (keydown.enter)="$event.preventDefault()">
+    <label for="opt3">Option 3:</label>
+    <input type="text" name="opt3" [(ngModel)]="opt3" required (keydown.enter)="$event.preventDefault()">
 
-        <label for="opt4">Option 4:</label>
-        <input type="text" name="opt4" [(ngModel)]="opt4" required (keydown.enter)="$event.preventDefault()">
+    <label for="opt4">Option 4:</label>
+    <input type="text" name="opt4" [(ngModel)]="opt4" required (keydown.enter)="$event.preventDefault()">
 
-        <label for="optAns">Correct Option:</label>
-        <input type="text" name="optAns" [(ngModel)]="optAns" required (keydown.enter)="$event.preventDefault()">
+    <label for="optAns">Correct Option:</label>
+    <input type="text" name="optAns" [(ngModel)]="optAns" required (keydown.enter)="$event.preventDefault()">
 
-        <label for="optAns">Correct Option:</label>
-        <!-- <input type="text" class="inputDes"   name="optAns" [(ngModel)]="description" required (keydown.enter)="$event.preventDefault()"> -->
-        <textarea class="inputDes" name="description" [(ngModel)]="description" required (keydown.enter)="$event.preventDefault()"></textarea>
-        <!-- Repeat the pattern for other input fields -->
+    <label for="optAns">Explanation:</label>
+    <!-- <input type="text" class="inputDes"   name="optAns" [(ngModel)]="description" required (keydown.enter)="$event.preventDefault()"> -->
+    <textarea class="inputDes" name="description" [(ngModel)]="description" required
+      (keydown.enter)="$event.preventDefault()"></textarea>
+    <!-- Repeat the pattern for other input fields -->
 
-        <button type="submit" *ngIf="!this.update">Save Question</button>
-        <button type="submit" *ngIf="this.update">Update Question</button>
-    </form>
+    <label for="chapterNumber">Chapter Number:</label>
+    <input type="text" name="chapterNumber" [(ngModel)]="chapterNumber" required (keydown.enter)="$event.preventDefault()">
+
+
+    <button type="submit" *ngIf="!this.update">Save Question</button>
+    <button type="submit" *ngIf="this.update">Update Question</button>
+  </form>
 
 </div>
 
@@ -43,23 +85,23 @@
 </div>
 
 <div id="questions">
-<h2>History Chapter 1 Quiz</h2>
-<form (submit)="submitQuiz()">
-  <div class="question-card" *ngFor="let question of quizQuestions; let i = index">
-    <label for="q{{ i }}" class="question-title">{{ i + 1 }}. {{ question.questionText}}</label>
-    <div *ngFor="let option of question.options; let j = index">
-      <input type="radio" [id]="'q' + i + 'option' + j" [name]="'q' + i" [value]="option.value" [(ngModel)]="userAnswers['q' + i]">
-      <label [for]="'q' + i + 'option' + j">{{" "+ option.label }}</label>
+  <h3  class="question-card" *ngIf="this.ischapterAndTitle"> Chapter {{this.chapter}} {{this.chapterTitle}}</h3>
+  <form (submit)="submitQuiz()">
+    <div class="question-card" *ngFor="let question of quizQuestions; let i = index">
+      <label for="q{{ i }}" class="question-title">{{ i + 1 }}. {{ question.questionText}}</label>
+      <div *ngFor="let option of question.options; let j = index">
+        <input type="radio" [id]="'q' + i + 'option' + j" [name]="'q' + i" [value]="option.value"
+          [(ngModel)]="userAnswers['q' + i]">
+        <label [for]="'q' + i + 'option' + j">{{" "+ option.label }}</label>
+      </div>
+      <div *ngIf="showAnswers">
+        <p> correct Answer :- {{question.correctAnswer}}</p>
+        <p> Description :- {{question.description}}</p>
+      </div>
     </div>
-    <div *ngIf="showAnswers">
-      <p> correct Answer :-  {{question.correctAnswer}}</p>
-      <p> Description :-  {{question.description}}</p>
+    <div *ngIf="showScore">
+      <p>Your Score: {{ calculateScore() }} out of {{ quizQuestions.length }}</p>
     </div>
-  </div>
-  <div *ngIf="showScore">
-    <p>Your Score: {{ calculateScore() }} out of {{ quizQuestions.length }}</p>
-  </div>
-  <button type="submit">Submit Quiz</button>
-</form>
+    <button type="submit" *ngIf="this.chapter && this.questionsData.length !== 0">Submit Quiz</button>
+  </form>
 </div>
-  

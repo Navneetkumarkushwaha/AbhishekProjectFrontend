@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { QuizserviceService } from '@app/_services/QuizService/quizservice.service';
 import { StorageService } from '@app/_services/storage.service';
+import { SharedService} from '@app/_shared/shared/shared.service'
 
 interface OriginalQuestion {
   id: number;
@@ -31,7 +32,9 @@ interface ConvertedQuestion {
 })
 export class QuizComponent implements OnInit {
 
-  //correctAnswer = '';
+  chapter :any;
+  chapterTitle : any;
+  ischapterAndTitle :boolean = false;
   questionTitle: string = '';
   opt1: string = '';
   opt2: string = '';
@@ -39,7 +42,9 @@ export class QuizComponent implements OnInit {
   opt4: string = '';
   optAns: string = '';
   description:string = '';
-
+  chapterNumber:string = '';
+  classNumber :string = '';
+  subject : string = '';
   questionsData: any;
   id: any;
   update: boolean = false;
@@ -53,8 +58,11 @@ export class QuizComponent implements OnInit {
   //correctAnswers: { [key: string]: string } = {}; // Map to store correct answers for each question
   quizForm: any;
   quizQuestions: any;
+  chaptersData: any;
 
-  constructor(private quizService: QuizserviceService, private storageService: StorageService) { }
+  constructor(private quizService: QuizserviceService, 
+              private storageService: StorageService,
+              private sharedService : SharedService) { }
 
 
 
@@ -69,17 +77,22 @@ export class QuizComponent implements OnInit {
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
       //console.log(this.showAdminBoard);
 
+
     }
-
-    this.loadQuestions();
-
+    //this.loadQuestions();
   }
 
-  loadQuestions(): void {
-    this.quizService.getAllQuestions().subscribe(
+  setClassNumberSubject(classNumber:string,subject:string){
+      this.classNumber = classNumber;
+      this.subject = subject;
+      this.chapterLoad();
+  }
+
+  loadQuestions(classNumber:string,subject:string,chapter:string): void {
+    this.quizService.getAllQuestions(classNumber,subject,chapter).subscribe(
       questions => {
         this.questionsData = questions;
-        //console.log(this.questionsData);
+        console.log(this.questionsData);
         const convertedquizQuestions: ConvertedQuestion[] = this.convertToNewFormat(this.questionsData);
         
         this.quizQuestions = convertedquizQuestions;
@@ -102,8 +115,10 @@ export class QuizComponent implements OnInit {
       opt4: this.opt4,
       optAns: this.optAns,
       id: this.id,
-      description:this.description
-
+      description:this.description,
+      classNumber:this.classNumber,
+      subject:this.subject,
+      chapter:this.chapterNumber // to take input from user.
     };
 
     if (this.id) {
@@ -111,13 +126,13 @@ export class QuizComponent implements OnInit {
       this.quizService.updateQuestion(questionData).subscribe(
         () => {
           // Reload questions after update
-          this.loadQuestions();
+          this.loadQuestions(this.classNumber,this.subject,this.chapter);
         },
         error => {
           if (error.status === 200) {
             this.update = false;
             alert('Updated successfully');
-            this.loadQuestions();
+            this.loadQuestions(this.classNumber,this.subject,this.chapter);
             this.questionTitle = '';
             this.opt1 = '';
             this.opt2 = '';
@@ -150,6 +165,7 @@ export class QuizComponent implements OnInit {
             this.opt4 = '';
             this.optAns = '';
             this.description = '';
+            this.chapterNumber = '';
             this.ngOnInit();
 
             // Optionally, reset the form fields or perform other actions.
@@ -162,11 +178,11 @@ export class QuizComponent implements OnInit {
   }
 
   deleteQuestion(id: number): void {
-    this.quizService.deleteQuestion(id).subscribe(
+    this.quizService.deleteQuestion(id,this.classNumber,this.subject).subscribe(
       () => {
         // Reload questions after deletion
         alert("Deleted successfully");
-        this.loadQuestions();
+        this.loadQuestions(this.classNumber,this.subject,this.chapter);
         this.update = false;
         if (id == this.id) {
           this.id = null;
@@ -259,4 +275,29 @@ export class QuizComponent implements OnInit {
   }
 
 
+  chapterLoad(): void{
+
+    this.quizService.getAllchapter(this.classNumber,this.subject).subscribe(
+      chapters => {
+        this.chaptersData = chapters;
+        //console.log(this.chaptersData);
+      },
+      error => {
+        console.error('Error fetching questions:', error);
+      }
+    );
+
+  }
+
+  setchapter(chapter:string,title:string):void{
+    this.chapter = chapter;
+    this.chapterTitle = title;
+    this.ischapterAndTitle = true;
+    this.loadQuestions(this.classNumber,this.subject,this.chapter);
+  }
+
 }
+
+
+
+

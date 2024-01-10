@@ -16,7 +16,10 @@ import { UpdateBlogComponent } from './Components/Blogs/update-blog/update-blog.
 import { FeedbackComponent } from './Components/feedback/feedback.component';
 import { ForgotpassComponent} from './Components/forgotpass/forgotpass.component';
 import { QuizComponent} from '@app/Components/quiz/quiz.component'
-
+import {PrivacyPolicyComponent } from '@app/Components/Policies/privacy-policy/privacy-policy.component';
+import { RefundpolicyComponent} from '@app/Components/Policies/refundpolicy/refundpolicy.component';
+import { TermsAndServicesComponent } from '@app/Components/Policies/terms-and-services/terms-and-services.component';
+import { ContactUsComponent} from '@app/Components/Policies/contact-us/contact-us.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -35,7 +38,11 @@ const routes: Routes = [
   { path: 'updateBlog' , component:UpdateBlogComponent},
   { path: 'feedback' , component : FeedbackComponent},
   { path:'forpass' ,component:ForgotpassComponent},
-  { path:'quiz' , component:QuizComponent}
+  { path:'quiz' , component:QuizComponent},
+  { path:'PrivacyPolicy' , component:PrivacyPolicyComponent},
+  {path: 'RefundPolicy', component:RefundpolicyComponent},
+  {path:'Terms&Services' ,component:TermsAndServicesComponent},
+  {path:'Contact-Us',component:ContactUsComponent}
   
 ];
 

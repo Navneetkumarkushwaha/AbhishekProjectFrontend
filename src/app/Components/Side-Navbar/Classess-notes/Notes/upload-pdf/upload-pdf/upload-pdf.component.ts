@@ -13,7 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export class UploadPdfComponent implements OnInit {
 
   name: any = '';
-  filename : any = '';
+  filename: any = '';
   file: any;
   classNumber: string = this.sharedService.getClassNumber();
   topic: string = '';
@@ -21,7 +21,7 @@ export class UploadPdfComponent implements OnInit {
 
   showUpladBoard: any;
   roles: any;
-  submitted :  any = false;
+  submitted: any = false;
 
   constructor(private uploadPdfService: UploadPdfServiceService, private sharedService: SharedService, private storageService: StorageService) { }
 
@@ -33,17 +33,27 @@ export class UploadPdfComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
     const user = this.storageService.getUser();
     this.roles = user.roles;
     this.showUpladBoard = this.roles.includes('ROLE_ADMIN');
 
   }
 
-    onUpload() {
-      if (this.selectedFile) {
+  onUpload() {
+    if (this.selectedFile) {
 
-        this.uploadPdfService.uploadFile(this.selectedFile, this.classNumber, this.topic, this.subject,this.filename)
+      if (!this.classNumber) {
+        alert("choose class number");
+      } else if (!this.topic) {
+        alert("write topic in topic field");
+      } else if (!this.subject) {
+        alert("choose subject ");
+      } else if (!this.selectedFile) {
+        alert("select a new file.");
+      } else {
+
+        this.uploadPdfService.uploadFile(this.selectedFile, this.classNumber, this.topic, this.subject, this.filename)
           .subscribe(
             response => {
               console.log('Server response:', response);
@@ -56,6 +66,7 @@ export class UploadPdfComponent implements OnInit {
                   this.submitted = true;
                   this.topic = '';
                   this.selectedFile = null;
+                  alert('File uploaded successfully');
                 } else {
                   console.error('Unexpected response:', textResponse);
                 }
@@ -65,8 +76,29 @@ export class UploadPdfComponent implements OnInit {
             }
 
           );
-      } else {
-        console.warn('No file selected.');
-      }
+      } 
+
+    }else {
+      alert('No file selected.');
+    }
+
+
+  }
+
+  checkCharacterLimit() {
+    if (this.topic.length > 1000) {
+      this.topic = this.trimToWordLimit(this.topic, 1000);// Trim to 700 characters
     }
   }
+
+  getWordCount(text: string): number {
+    // Simple logic to count words
+    const words = text.split(/\s+/);
+    return words.length;
+  }
+
+  trimToWordLimit(text: string, limit: number): string {
+    const words = text.split(/\s+/);
+    return words.slice(0, limit).join(' ');
+  }
+}

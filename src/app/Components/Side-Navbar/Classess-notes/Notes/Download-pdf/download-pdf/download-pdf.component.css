@@ -1,9 +1,27 @@
 .box {
-    margin-left: 270px; /* Adjust margin to accommodate the sidebar width */
+    margin-left: 0px; /* Adjust margin to accommodate the sidebar width */
     padding: 15px;
     border: 1px solid #ddd;
     margin-top: 30px;
 }
+
+.pdf-card {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  margin-bottom: 15px;
+  background-color: #f9f9f9;
+}
+
+.pdf-title {
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+#pdfs {
+  margin-top: 20px;
+}
+
 
 
 
@@ -16,10 +34,65 @@
 }
 
 
+/* Add this to your styles.css or styles.scss file */
+.pdf-card-skeleton {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+  padding: 15px;
+  background-color: #f2f2f2;
+  border-radius: 5px;
+}
+
+.pdf-title-skeleton {
+  width: 70%;
+  height: 20px;
+  background-color: #e0e0e0;
+  margin-bottom: 10px;
+}
+
+.pdf-info-skeleton {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pdf-amount-skeleton {
+  width: 40%;
+  height: 15px;
+  background-color: #e0e0e0;
+}
+
+.pdf-button-skeleton {
+  width: 80px;
+  height: 30px;
+  background-color: #e0e0e0;
+  margin-left: 10px;
+}
+
+@media screen and (min-width: 768px) {
+  .pdf-info-skeleton {
+    flex-wrap: nowrap; /* Prevent items from wrapping on larger screens */
+  }
+
+  .pdf-amount-skeleton {
+    width: auto; /* Allow the amount to take its natural width on larger screens */
+    max-width: none; /* Remove the maximum width */
+    margin-bottom: 0;
+  }
+
+  .pdf-button-skeleton {
+    width: auto; /* Allow the buttons to take their natural width on larger screens */
+    max-width: none; /* Remove the maximum width */
+    margin-bottom: 0;
+  }
+}
+
+
 
 @media (max-width: 768px) {
   .box {
-    margin-left:50px!important;
+    margin-left:0px!important;
 
   }
 

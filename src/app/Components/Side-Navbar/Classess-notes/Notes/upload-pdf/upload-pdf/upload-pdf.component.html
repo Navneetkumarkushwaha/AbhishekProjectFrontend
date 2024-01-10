@@ -6,8 +6,11 @@
             <div class="col-md-6 col-md-offset-3">
                 <div>
                     <!-- <input [(ngModel)]="topic" type="text"> -->
-                    <textarea [(ngModel)]="topic" placeholder="Type your file about here..." class="text-area"></textarea>
-                    <textarea [(ngModel)]="filename" placeholder="Type your file about here..." class="text-area"></textarea>
+                    <label>file's topic</label>
+                    <textarea [(ngModel)]="topic" placeholder="Type your file topic here..." class="text-area" (input)="checkCharacterLimit()"></textarea>
+                    <div *ngIf="topic.length > 1000" style="color: red;">Exceeded 1000 words</div>
+                    <label>file's name</label>
+                    <textarea [(ngModel)]="filename" placeholder="Type your file name..." class="filename"></textarea>
                     <br>
                     <input type="file" (change)="onFileSelected($event)" />
                     <button (click)="onUpload()">Upload</button>

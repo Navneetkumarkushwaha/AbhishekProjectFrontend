@@ -60,15 +60,15 @@ export class ClassesNotesComponent implements OnInit {
   
     
 
-    this.paymentSerService.ispaid(this.classNumber,this.SubjectName,this.userId)
-      .subscribe(
-        response => {
-          this.payment_success = response;
-        },
-        error => {
-          console.error('Failed to get status of payment', error.status);
-        }
-      );
+    // this.paymentSerService.ispaid(this.classNumber,this.SubjectName,this.userId)
+    //   .subscribe(
+    //     response => {
+    //       this.payment_success = response;
+    //     },
+    //     error => {
+    //       console.error('Failed to get status of payment', error.status);
+    //     }
+    //   );
     
 
 
@@ -118,20 +118,20 @@ export class ClassesNotesComponent implements OnInit {
   
 
   savepayment() {
-    this.paymentSerService.savepayment(this.phoneNo, this.classNumber, this.userId, this.SubjectName, this.paymentId, this.studentName)
-      .subscribe(
-        response => {
-          console.log('', response);
-          this.reloadPage();
-        },
-        error => {
-          if(error.status === 200){
-            this.payment_success = true;
-            this.reloadPage();
-          }
-          console.error('Failed to save Data', error.status);
-        }
-      );
+    // this.paymentSerService.savepayment(this.phoneNo, this.classNumber, this.userId, this.SubjectName, this.paymentId, this.studentName)
+    //   .subscribe(
+    //     response => {
+    //       console.log('', response);
+    //       this.reloadPage();
+    //     },
+    //     error => {
+    //       if(error.status === 200){
+    //         this.payment_success = true;
+    //         this.reloadPage();
+    //       }
+    //       console.error('Failed to save Data', error.status);
+    //     }
+    //   );
   }
 
   reloadPage(): void {
