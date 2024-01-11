@@ -20,13 +20,15 @@ import {PrivacyPolicyComponent } from '@app/Components/Policies/privacy-policy/p
 import { RefundpolicyComponent} from '@app/Components/Policies/refundpolicy/refundpolicy.component';
 import { TermsAndServicesComponent } from '@app/Components/Policies/terms-and-services/terms-and-services.component';
 import { ContactUsComponent} from '@app/Components/Policies/contact-us/contact-us.component';
+import { ShowquizboardComponent} from '@app/Components/quiz/showquizboard/showquizboard.component';
+
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent },
-  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '', redirectTo: 'pdfs', pathMatch: 'full' },
   { path: 'pdfs' , component: PdfsComponent},
   { path: 'classes-notes', component: ClassesNotesComponent},
   { path: 'notes' ,component:NotesComponent},

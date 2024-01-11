@@ -33,6 +33,7 @@ import { RefundpolicyComponent } from './Components/Policies/refundpolicy/refund
 import { PrivacyPolicyComponent } from './Components/Policies/privacy-policy/privacy-policy.component';
 import { TermsAndServicesComponent } from './Components/Policies/terms-and-services/terms-and-services.component';
 import { ContactUsComponent } from './Components/Policies/contact-us/contact-us.component';
+import { ShowquizboardComponent } from './Components/quiz/showquizboard/showquizboard.component';
 
 
 
@@ -63,7 +64,8 @@ import { ContactUsComponent } from './Components/Policies/contact-us/contact-us.
     RefundpolicyComponent,
     PrivacyPolicyComponent,
     TermsAndServicesComponent,
-    ContactUsComponent
+    ContactUsComponent,
+    ShowquizboardComponent
   ],
   imports: [
     BrowserModule,

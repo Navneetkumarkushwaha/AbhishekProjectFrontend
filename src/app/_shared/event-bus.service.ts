@@ -18,4 +18,7 @@ export class EventBusService {
       filter((e: EventData) => e.name === eventName),
       map((e: EventData) => e["value"])).subscribe(action);
   }
+
+  
 }
+

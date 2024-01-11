@@ -4,6 +4,7 @@ import { UploadPdfServiceService } from '@app/_services/Upload-Download/upload-p
 import { StorageService } from '@app/_services/storage.service'
 import { PaymentSerService } from '@app/_services/PaymentService/payment-ser.service'
 import { WindowRefService } from '@app/_services/WindowRef/window-ref.service'
+import { Subscription } from 'rxjs';
 
 declare var Razorpay: any;
 
@@ -15,13 +16,20 @@ declare var Razorpay: any;
 })
 export class DownloadPdfComponent implements OnInit {
  
+  private subscription: Subscription;
 
   constructor(
     private uploadPdfService: UploadPdfServiceService,
     private sharedService: SharedService,
     private storageService: StorageService,
     private paymentSerService: PaymentSerService,
-    private winRef: WindowRefService) { }
+    private winRef: WindowRefService)  {
+      // Subscribe to the reload observable
+      this.subscription = this.sharedService.reloadSecondComponent$.subscribe(() => {
+        this.set_ClassNumber_Subject();
+        this.api_call();
+      });
+    }
    
   loading: boolean=true;
   amount:number = 49;
@@ -65,7 +73,7 @@ export class DownloadPdfComponent implements OnInit {
     }
 
     this.set_ClassNumber_Subject();
-    this.api_call();
+    //this.api_call();
   }
 
   set_ClassNumber_Subject() {
@@ -125,10 +133,10 @@ export class DownloadPdfComponent implements OnInit {
             a.download = filename;
             a.href = url;
             a.click();
-
+            alert('Downloaded successfully');
           }
         );
-      // alert('Downloaded successfully');
+      alert('Downloaded successfully');
     }
   }
 

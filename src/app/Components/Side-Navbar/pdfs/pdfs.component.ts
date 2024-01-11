@@ -15,7 +15,8 @@ export class PdfsComponent {
     // Set the class number in the shared service
     this.sharedService.setClassNumber(classNumber);
     this.sharedService.setSubjectName(subject);
-
+    
+    this.sharedService.reloadUploadPdfComponent();
     // Navigate to the 'classes-notes' route with the specified class number
     this.router.navigate(['/upload-pdf']);
   }

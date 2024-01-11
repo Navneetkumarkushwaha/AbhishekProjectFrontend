@@ -1,11 +1,9 @@
-import { literalMap } from '@angular/compiler';
-import { Component, OnInit,ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { QuizserviceService } from '@app/_services/QuizService/quizservice.service';
 import { StorageService } from '@app/_services/storage.service';
 import { SharedService } from '@app/_shared/shared/shared.service'
-
-import { ShowquizboardComponent } from '@app/Components/quiz/showquizboard/showquizboard.component';
+import { Subscription } from 'rxjs';
 
 interface OriginalQuestion {
   id: number;
@@ -25,15 +23,16 @@ interface ConvertedQuestion {
   description: string;
 }
 
-
-
 @Component({
-  selector: 'app-quiz',
-  templateUrl: './quiz.component.html',
-  styleUrls: ['./quiz.component.css']
+  selector: 'app-showquizboard',
+  templateUrl: './showquizboard.component.html',
+  styleUrls: ['./showquizboard.component.css']
 })
-export class QuizComponent implements OnInit {
+export class ShowquizboardComponent implements OnInit {
 
+  userAnswers: { [key: string]: string } = {};
+  showAnswers = false;
+  showScore = false; // Added property
   chapter: string = '';
   chapterTitle: any;
   ischapterAndTitle: boolean = false;
@@ -61,56 +60,25 @@ export class QuizComponent implements OnInit {
   quizForm: any;
   quizQuestions: any;
   chaptersData: any;
-  IsshowQuizBoard:boolean = false;
+
+  private subscription: Subscription;
+
 
   constructor(private quizService: QuizserviceService,
     private storageService: StorageService,
-    private sharedService: SharedService) { }
-
-
-
-  ngOnInit(): void {
-
-    this.isLoggedIn = this.storageService.isLoggedIn();
-
-    if (this.isLoggedIn) {
-      const user = this.storageService.getUser();
-      this.roles = user.roles;
-
-      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+    private sharedService: SharedService) {
+      // Subscribe to the reload observable
+      this.subscription = this.sharedService.reloadQuizshowboardComponent$.subscribe(() => {
+        this.ngOnInit();
+      });
     }
-  }
 
- 
-
-  setClassNumberSubject(classNumber: string, subject: string) {
-    this.classNumber = classNumber;
-    this.subject = subject;
-    this.sharedService.setClassNumber(classNumber);
-    this.sharedService.setSubjectName(subject);
-    this.IsshowQuizBoard = true;
-    this.sharedService.reloadQuizshowboardComponent();
-    console.log("hl")
-    //this.chapterLoad();
-  }
-
-
-  loadQuestions(classNumber: string, subject: string, chapter: string): void {
-    this.quizService.getAllQuestions(classNumber, subject, chapter).subscribe(
-      questions => {
-        this.questionsData = questions;
-        //console.log(this.questionsData);
-        const convertedquizQuestions: ConvertedQuestion[] = this.convertToNewFormat(this.questionsData);
-
-        this.quizQuestions = convertedquizQuestions;
-        //console.log(this.quizQuestions);
-
-
-      },
-      error => {
-        console.error('Error fetching questions:', error);
-      }
-    );
+  ngOnInit() {
+    this.classNumber = this.sharedService.getClassNumber();
+    this.subject = this.sharedService.getSubjectName();
+    this.chapter = this.sharedService.getChapter();
+    this.chapterLoad();
+    this.loadQuestions(this.classNumber, this.subject, this.chapter);
   }
 
   saveQuestion(): void {
@@ -184,6 +152,7 @@ export class QuizComponent implements OnInit {
 
   }
 
+
   deleteQuestion(id: number): void {
     this.quizService.deleteQuestion(id, this.classNumber, this.subject).subscribe(
       () => {
@@ -205,6 +174,13 @@ export class QuizComponent implements OnInit {
 
     this.update = true;
 
+    // console.log(questionData.questionTitle);
+    // console.log(questionData.opt1);
+    // console.log(questionData.opt2);
+    // console.log(questionData.opt3);
+    // console.log(questionData.opt4);
+    // console.log(questionData.optAns);
+
     this.questionTitle = questionData.questionTitle;
     this.opt1 = questionData.opt1;
     this.opt2 = questionData.opt2;
@@ -216,41 +192,24 @@ export class QuizComponent implements OnInit {
 
   }
 
-  checkAnswer(questionId: string, selectedOption: string): void {
-    if (!this.showResult) {
-      this.selectedOptions[questionId] = selectedOption;
-      this.showResult = true;
-    }
-  }
 
-  userAnswers: { [key: string]: string } = {};
-  showAnswers = false;
-  showScore = false; // Added property
+  loadQuestions(classNumber: string, subject: string, chapter: string): void {
+    this.quizService.getAllQuestions(classNumber, subject, chapter).subscribe(
+      questions => {
+        this.questionsData = questions;
+        //console.log(this.questionsData);
+        const convertedquizQuestions: ConvertedQuestion[] = this.convertToNewFormat(this.questionsData);
+
+        this.quizQuestions = convertedquizQuestions;
+        //console.log(this.quizQuestions);
 
 
-
-  submitQuiz() {
-    //console.log('User Answers:', this.userAnswers);
-    this.showAnswers = true;
-    this.showScore = true; // Toggle to show score
-  }
-
-  calculateScore(): number {
-    let score = 0;
-    this.quizQuestions.forEach((question: ConvertedQuestion, i: number) => {
-      const userAnswer = this.userAnswers['q' + i];
-      //console.log(question.correctAnswer);
-      //console.log(userAnswer);
-      if (userAnswer === question.correctAnswer) {
-        console.log("hi")
-        score++;
+      },
+      error => {
+        console.error('Error fetching questions:', error);
       }
-
-    });
-
-    return score;
+    );
   }
-
 
 
   convertToNewFormat(originalQuestions: OriginalQuestion[]): ConvertedQuestion[] {
@@ -292,17 +251,39 @@ export class QuizComponent implements OnInit {
   setchapter(chapter: string, title: string): void {
     this.chapter = chapter;
     this.chapterTitle = title;
-    this.sharedService.setChapter(chapter);
-    this.sharedService.setChapterTitle(title);
     this.ischapterAndTitle = true;
+    this.loadQuestions(this.classNumber, this.subject, this.chapter);
   }
 
   reloadPage(): void {
     window.location.reload();
   }
 
+  calculateScore(): number {
+    let score = 0;
+    this.quizQuestions.forEach((question: ConvertedQuestion, i: number) => {
+      const userAnswer = this.userAnswers['q' + i];
+      //console.log(question.correctAnswer);
+      //console.log(userAnswer);
+      if (userAnswer === question.correctAnswer) {
+        console.log("hi")
+        score++;
+      }
+
+    });
+
+    return score;
+  }
+
+  submitQuiz() {
+    //console.log('User Answers:', this.userAnswers);
+    this.showAnswers = true;
+    this.showScore = true; // Toggle to show score
+  }
+
+
+
+
+
+
 }
-
-
-
-

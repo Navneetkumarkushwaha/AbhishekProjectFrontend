@@ -3,7 +3,7 @@ import { UploadPdfServiceService } from '@app/_services/Upload-Download/upload-p
 import { SharedService } from '@shared/shared.service';
 import { StorageService } from '@app/_services/storage.service';
 import { HttpErrorResponse } from '@angular/common/http';
-
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-upload-pdf',
@@ -22,8 +22,14 @@ export class UploadPdfComponent implements OnInit {
   showUpladBoard: any;
   roles: any;
   submitted: any = false;
+  private subscription: Subscription;
 
-  constructor(private uploadPdfService: UploadPdfServiceService, private sharedService: SharedService, private storageService: StorageService) { }
+  constructor(private uploadPdfService: UploadPdfServiceService, private sharedService: SharedService, private storageService: StorageService)  {
+    // Subscribe to the reload observable
+    this.subscription = this.sharedService.reloadSecondComponent$.subscribe(() => {
+      this.reloadComponent();
+    });
+  }
 
   selectedFile: File | null = null;
 
@@ -100,5 +106,12 @@ export class UploadPdfComponent implements OnInit {
   trimToWordLimit(text: string, limit: number): string {
     const words = text.split(/\s+/);
     return words.slice(0, limit).join(' ');
+  }
+
+  reloadComponent() {
+    // Implement the logic to reload or refresh your component here
+    this.classNumber=this.sharedService.getClassNumber();
+    this.subject= this.sharedService.getSubjectName();
+    this.sharedService.reloadDownloadPdfComponent();
   }
 }
