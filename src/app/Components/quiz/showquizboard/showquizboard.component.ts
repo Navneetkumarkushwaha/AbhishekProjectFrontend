@@ -135,7 +135,7 @@ export class ShowquizboardComponent implements OnInit {
     } else {
       this.quizService.saveQuestion(questionData).subscribe(
         response => {
-
+          this.loadQuestions(this.classNumber, this.subject, this.chapter);
         },
         error => {
           //console.error('Error saving question:', error.status);
@@ -149,8 +149,8 @@ export class ShowquizboardComponent implements OnInit {
             this.optAns = '';
             this.description = '';
             this.chapterNumber = '';
-            this.ngOnInit();
-
+            //this.ngOnInit();
+            this.loadQuestions(this.classNumber, this.subject, this.chapter);
             // Optionally, reset the form fields or perform other actions.
           }
           // Handle error scenarios
