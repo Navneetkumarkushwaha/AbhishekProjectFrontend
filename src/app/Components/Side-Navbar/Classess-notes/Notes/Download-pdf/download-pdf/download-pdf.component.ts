@@ -133,10 +133,10 @@ export class DownloadPdfComponent implements OnInit {
             a.download = filename;
             a.href = url;
             a.click();
-            alert('Downloaded successfully');
+            //alert('Downloaded successfully');
           }
         );
-      alert('Downloaded successfully');
+      //alert('Downloaded successfully');
     }
   }
 

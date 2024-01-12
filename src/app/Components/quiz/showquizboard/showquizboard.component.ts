@@ -74,6 +74,14 @@ export class ShowquizboardComponent implements OnInit {
     }
 
   ngOnInit() {
+    this.isLoggedIn = this.storageService.isLoggedIn();
+
+    if (this.isLoggedIn) {
+      const user = this.storageService.getUser();
+      this.roles = user.roles;
+
+      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+    }
     this.classNumber = this.sharedService.getClassNumber();
     this.subject = this.sharedService.getSubjectName();
     this.chapter = this.sharedService.getChapter();
