@@ -44,7 +44,8 @@ const routes: Routes = [
   { path:'PrivacyPolicy' , component:PrivacyPolicyComponent},
   {path: 'RefundPolicy', component:RefundpolicyComponent},
   {path:'Terms&Services' ,component:TermsAndServicesComponent},
-  {path:'Contact-Us',component:ContactUsComponent}
+  {path:'Contact-Us',component:ContactUsComponent},
+  {path:'quizBoard',component:ShowquizboardComponent}
   
 ];
 

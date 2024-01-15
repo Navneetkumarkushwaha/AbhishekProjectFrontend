@@ -44,8 +44,8 @@ export class ShowquizboardComponent implements OnInit {
   optAns: string = '';
   description: string = '';
   chapterNumber: string = '';
-  classNumber: string = '';
-  subject: string = '';
+  classNumber: string = '6';
+  subject: string = 'History';
   questionsData: any;
   id: any;
   update: boolean = false;
@@ -75,7 +75,7 @@ export class ShowquizboardComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.storageService.isLoggedIn();
-
+    console.log("Hi");
     if (this.isLoggedIn) {
       const user = this.storageService.getUser();
       this.roles = user.roles;

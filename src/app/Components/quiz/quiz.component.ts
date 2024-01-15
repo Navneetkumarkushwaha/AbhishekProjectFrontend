@@ -45,8 +45,8 @@ export class QuizComponent implements OnInit {
   optAns: string = '';
   description: string = '';
   chapterNumber: string = '';
-  classNumber: string = '';
-  subject: string = '';
+  classNumber: string = '6';
+  subject: string = 'History';
   questionsData: any;
   id: any;
   update: boolean = false;
@@ -72,6 +72,7 @@ export class QuizComponent implements OnInit {
   ngOnInit(): void {
 
     this.isLoggedIn = this.storageService.isLoggedIn();
+    
 
     if (this.isLoggedIn) {
       const user = this.storageService.getUser();
@@ -79,6 +80,10 @@ export class QuizComponent implements OnInit {
 
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
     }
+    this.sharedService.setClassNumber('6');
+    this.sharedService.setSubjectName('History');
+    this.sharedService.reloadQuizshowboardComponent();
+    console.log("hi")
   }
 
  
@@ -86,11 +91,11 @@ export class QuizComponent implements OnInit {
   setClassNumberSubject(classNumber: string, subject: string) {
     this.classNumber = classNumber;
     this.subject = subject;
-    this.sharedService.setClassNumber(classNumber);
-    this.sharedService.setSubjectName(subject);
+    this.sharedService.setClassNumber('6');
+    this.sharedService.setSubjectName('History');
     this.IsshowQuizBoard = true;
-    this.sharedService.reloadQuizshowboardComponent();
-    console.log("hl")
+    //this.sharedService.reloadQuizshowboardComponent();
+    ///console.log("hl")
     //this.chapterLoad();
   }
 
