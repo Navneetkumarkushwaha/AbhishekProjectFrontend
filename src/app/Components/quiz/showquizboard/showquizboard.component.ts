@@ -82,11 +82,8 @@ export class ShowquizboardComponent implements OnInit {
 
       this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
     }
-    this.classNumber = this.sharedService.getClassNumber();
-    this.subject = this.sharedService.getSubjectName();
-    this.chapter = this.sharedService.getChapter();
     this.chapterLoad();
-    this.loadQuestions(this.classNumber, this.subject, this.chapter);
+    //this.loadQuestions('6', 'History', this.chapter);
   }
 
   saveQuestion(): void {
