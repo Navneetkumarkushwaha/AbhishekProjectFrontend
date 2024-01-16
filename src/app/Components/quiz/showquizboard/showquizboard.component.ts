@@ -4,6 +4,7 @@ import { QuizserviceService } from '@app/_services/QuizService/quizservice.servi
 import { StorageService } from '@app/_services/storage.service';
 import { SharedService } from '@app/_shared/shared/shared.service'
 import { Subscription } from 'rxjs';
+import { Router } from '@angular/router';
 
 interface OriginalQuestion {
   id: number;
@@ -66,7 +67,8 @@ export class ShowquizboardComponent implements OnInit {
 
   constructor(private quizService: QuizserviceService,
     private storageService: StorageService,
-    private sharedService: SharedService) {
+    private sharedService: SharedService,
+    private router: Router) {
       // Subscribe to the reload observable
       this.subscription = this.sharedService.reloadQuizshowboardComponent$.subscribe(() => {
         this.ngOnInit();
@@ -75,7 +77,7 @@ export class ShowquizboardComponent implements OnInit {
 
   ngOnInit() {
     this.isLoggedIn = this.storageService.isLoggedIn();
-    console.log("Hi");
+    //console.log("Hi");
     if (this.isLoggedIn) {
       const user = this.storageService.getUser();
       this.roles = user.roles;
@@ -195,6 +197,10 @@ export class ShowquizboardComponent implements OnInit {
     this.id = questionData.id;
     this.description = questionData.description;
 
+  }
+
+  back(){
+    this.router.navigate(['/quizBoard']);
   }
 
 
