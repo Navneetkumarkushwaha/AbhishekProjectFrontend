@@ -6,6 +6,7 @@
 
 <div class="classNumberChapter" *ngIf="this.ischapterAndTitle">
   <h2>Class {{this.classNumber}} {{this.subject}}</h2>
+  <a routerLink="quizBoard">Back</a>
 </div>
 
 <div class="setchapter" *ngIf="!this.ischapterAndTitle">
