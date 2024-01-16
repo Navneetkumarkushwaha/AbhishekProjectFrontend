@@ -1,70 +1,16 @@
-<!-- <div class="box">
-  <table class="table table-dark table-hover">
-      <thead>
-          <tr>
-              <th scope="col">.</th>
-              <th scope="col">.</th>
-              <th scope="col">Topic</th>
-              <th scope="col">Download</th>
-              <th scope="col" *ngIf="showAdminBoard">Delete</th>
-              <th scope="col">Payment section</th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr *ngFor="let pdfFile of List_PDF; let i = index">
-              <td></td>
-              <td></td>
-              <td></td>
-              <td>{{ pdfFile.topic }}</td>
-              <td>{{ pdfFile.id }}</td>
-              <td><button class="btn btn-success" (click)="download(pdfFile.id)">Download pdf</button></td>
-              <td *ngIf="showAdminBoard"><button class="btn btn-danger" (click)="deleteByid(pdfFile.id)">Delete</button></td>
-              <td>
-                <button *ngIf="this.classNumber && this.subject && !this.isPaymentSuccessful && this.isPaymentHashmap[pdfFile.id] != 1" class="white-no-underline btn btn-success"
-                (click)="payNow(pdfFile.id)">Pay now</button>
-              </td>
-              
-            </tr>
-      </tbody>
-  </table>
-</div> -->
-<!-- <div class="box">
-  <div class="table-responsive">
-    <table class="table table-dark table-hover">
-      <thead>
-        <tr>
-          <th scope="col">Topic</th>
-          <th scope="col">Price</th>
-          <th scope="col">Download</th>
-          <th scope="col" *ngIf="showAdminBoard">Delete</th>
-          <th scope="col">Payment</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let pdfFile of List_PDF; let i = index">
-          <td>{{ pdfFile.about }}</td>
-          <td>{{amount+'₹'}}</td>
-          <td><button class="btn btn-success" (click)="download(pdfFile.id)">Download</button></td>
-          <td *ngIf="showAdminBoard"><button class="btn btn-danger" (click)="deleteByid(pdfFile.id)">Delete</button>
-          </td>
-          <td>
-            <button *ngIf="this.classNumber && this.subject && !this.isPaymentSuccessful && this.isPaymentHashmap[pdfFile.id] != 1" class="white-no-underline btn btn-success"
-              (click)="payNow(pdfFile.id)">Pay</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div> -->
-
 <div id="pdfs">
   <div *ngFor="let pdfFile of List_PDF; let i = index">
     <div *ngIf="!this.loading; else skeleton;" class="pdf-card">
-      <label for="q{{ i }}" class="pdf-title">{{ pdfFile.about}}</label>
-      <div>
-        <label>{{amount+'₹'}}</label>
-        <button class="btn btn-success" (click)="download(pdfFile.id)">Download</button>&nbsp;&nbsp;
-        <button *ngIf="showAdminBoard" class="btn btn-danger" (click)="deleteByid(pdfFile.id)">Delete</button>
+      <div class="pdf-title" [innerHTML]="getTrustedHtml(pdfFile.about)"></div>
+      <div class="btn-class">
+        <div>
+          <label>{{'Price :- ₹ '+amount+ '/- Only'}}</label>
+        </div>
+        <div style="display: flex;">
+          <button class="btn btn-primary" (click)="download(pdfFile.id)">Download</button>&nbsp;&nbsp;
+          <button  class="btn btn-info" (click)="payNow(pdfFile.id)">Pay</button>&nbsp;&nbsp;
+          <button *ngIf="showAdminBoard" class="btn btn-danger" (click)="deleteByid(pdfFile.id)">Delete</button>
+        </div>
       </div>
     </div>
   </div>

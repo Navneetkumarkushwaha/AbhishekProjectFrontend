@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { SharedService } from '@shared/shared.service';
 
@@ -7,9 +7,14 @@ import { SharedService } from '@shared/shared.service';
   templateUrl: './pdfs.component.html',
   styleUrls: ['./pdfs.component.css']
 })
-export class PdfsComponent {
+export class PdfsComponent implements OnInit{
 
   constructor(private router: Router, private sharedService: SharedService) { }
+  
+  ngOnInit(): void {
+    //throw new Error('Method not implemented.');
+    this.router.navigate(['/upload-pdf']);
+  }
 
   setClassNumberAndNavigate(classNumber: number,subject:string): void {
     // Set the class number in the shared service

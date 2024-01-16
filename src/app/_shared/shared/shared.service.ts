@@ -12,9 +12,9 @@ export class SharedService {
 
   private API_URL: any = 'https://abhishekprojectbackend-production.up.railway.app'
 
-  private classNumber: any;
+  private classNumber: any ;
 
-  private SubjectName: any;
+  private SubjectName: any ;
 
   private id: any;
 

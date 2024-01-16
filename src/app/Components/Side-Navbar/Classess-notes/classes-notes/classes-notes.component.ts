@@ -5,6 +5,8 @@ import { SharedService } from '@shared/shared.service';
 import { StorageService } from '@app/_services/storage.service'
 import { PaymentSerService } from '@app/_services/PaymentService/payment-ser.service'
 import  {WindowRefService} from '@app/_services/WindowRef/window-ref.service'
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
 
 declare var Razorpay: any;
 
@@ -15,6 +17,7 @@ declare var Razorpay: any;
 })
 export class ClassesNotesComponent implements OnInit {
 
+  
   classNumber: any;
   SubjectName: any;
   studentName: any;
@@ -33,7 +36,8 @@ export class ClassesNotesComponent implements OnInit {
     private sharedService: SharedService,
     private storageService: StorageService,
     private paymentSerService: PaymentSerService,
-    private winRef: WindowRefService) { }
+    private winRef: WindowRefService,
+    private sanitizer: DomSanitizer) { }
 
 
   ngOnInit(): void {
@@ -137,6 +141,8 @@ export class ClassesNotesComponent implements OnInit {
   reloadPage(): void {
     window.location.reload();
   }
+
+
 
 }
 

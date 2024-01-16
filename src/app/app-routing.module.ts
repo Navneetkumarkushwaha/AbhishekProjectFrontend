@@ -21,7 +21,7 @@ import { RefundpolicyComponent} from '@app/Components/Policies/refundpolicy/refu
 import { TermsAndServicesComponent } from '@app/Components/Policies/terms-and-services/terms-and-services.component';
 import { ContactUsComponent} from '@app/Components/Policies/contact-us/contact-us.component';
 import { ShowquizboardComponent} from '@app/Components/quiz/showquizboard/showquizboard.component';
-
+import { AboutUsComponent } from './Components/Policies/about-us/about-us.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -45,7 +45,9 @@ const routes: Routes = [
   {path: 'RefundPolicy', component:RefundpolicyComponent},
   {path:'Terms&Services' ,component:TermsAndServicesComponent},
   {path:'Contact-Us',component:ContactUsComponent},
-  {path:'quizBoard',component:ShowquizboardComponent}
+  {path:'quizBoard',component:ShowquizboardComponent},
+
+  {path:'About-Us',component:AboutUsComponent}
   
 ];
 

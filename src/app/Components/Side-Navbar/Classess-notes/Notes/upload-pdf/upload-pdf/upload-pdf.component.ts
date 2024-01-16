@@ -4,6 +4,7 @@ import { SharedService } from '@shared/shared.service';
 import { StorageService } from '@app/_services/storage.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-upload-pdf',
@@ -24,7 +25,10 @@ export class UploadPdfComponent implements OnInit {
   submitted: any = false;
   private subscription: Subscription;
 
-  constructor(private uploadPdfService: UploadPdfServiceService, private sharedService: SharedService, private storageService: StorageService)  {
+  constructor(private uploadPdfService: UploadPdfServiceService, 
+              private sharedService: SharedService, 
+              private storageService: StorageService,
+              private sanitizer: DomSanitizer)  {
     // Subscribe to the reload observable
     this.subscription = this.sharedService.reloadSecondComponent$.subscribe(() => {
       this.reloadComponent();
@@ -38,11 +42,28 @@ export class UploadPdfComponent implements OnInit {
     this.submitted = false;
   }
 
+  getTrustedHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
+  }
+
   ngOnInit(): void {
 
     const user = this.storageService.getUser();
     this.roles = user.roles;
     this.showUpladBoard = this.roles.includes('ROLE_ADMIN');
+
+    if(!this.sharedService.getClassNumber()){
+      this.classNumber = '6';
+    }
+    else{
+      this.classNumber = this.sharedService.getClassNumber();
+    }
+
+    if(!this.sharedService.getSubjectName()){
+      this.subject = 'History';
+    }else{
+      this.subject = this.sharedService.getSubjectName();
+    }
 
   }
 

@@ -13,6 +13,8 @@ import { BoardAdminComponent } from './board-admin/board-admin.component';
 import { BoardModeratorComponent } from './board-moderator/board-moderator.component';
 import { BoardUserComponent } from './board-user/board-user.component';
 
+import { AngularEditorModule } from '@kolkov/angular-editor';
+import { ReactiveFormsModule } from '@angular/forms';
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { PdfsComponent } from './Components/Side-Navbar/pdfs/pdfs.component';
 import { ClassesNotesComponent } from './Components/Side-Navbar/Classess-notes/classes-notes/classes-notes.component';
@@ -34,6 +36,8 @@ import { PrivacyPolicyComponent } from './Components/Policies/privacy-policy/pri
 import { TermsAndServicesComponent } from './Components/Policies/terms-and-services/terms-and-services.component';
 import { ContactUsComponent } from './Components/Policies/contact-us/contact-us.component';
 import { ShowquizboardComponent } from './Components/quiz/showquizboard/showquizboard.component';
+import { DowloadNewPDFComponentComponent } from './Components/Side-Navbar/Classess-notes/Notes/Download-pdf/dowload-new-pdfcomponent/dowload-new-pdfcomponent.component';
+import { AboutUsComponent } from './Components/Policies/about-us/about-us.component';
 
 
 
@@ -65,7 +69,9 @@ import { ShowquizboardComponent } from './Components/quiz/showquizboard/showquiz
     PrivacyPolicyComponent,
     TermsAndServicesComponent,
     ContactUsComponent,
-    ShowquizboardComponent
+    ShowquizboardComponent,
+    DowloadNewPDFComponentComponent,
+    AboutUsComponent
   ],
   imports: [
     BrowserModule,
@@ -73,7 +79,9 @@ import { ShowquizboardComponent } from './Components/quiz/showquizboard/showquiz
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatIconModule
+    MatIconModule,
+    ReactiveFormsModule,
+    AngularEditorModule
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

@@ -5,6 +5,7 @@ import { StorageService } from '@app/_services/storage.service'
 import { PaymentSerService } from '@app/_services/PaymentService/payment-ser.service'
 import { WindowRefService } from '@app/_services/WindowRef/window-ref.service'
 import { Subscription } from 'rxjs';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 declare var Razorpay: any;
 
@@ -23,7 +24,8 @@ export class DownloadPdfComponent implements OnInit {
     private sharedService: SharedService,
     private storageService: StorageService,
     private paymentSerService: PaymentSerService,
-    private winRef: WindowRefService)  {
+    private winRef: WindowRefService,
+    private sanitizer: DomSanitizer)  {
       // Subscribe to the reload observable
       this.subscription = this.sharedService.reloadSecondComponent$.subscribe(() => {
         this.set_ClassNumber_Subject();
@@ -73,15 +75,28 @@ export class DownloadPdfComponent implements OnInit {
     }
 
     this.set_ClassNumber_Subject();
-    //this.api_call();
+    this.api_call();
   }
 
   set_ClassNumber_Subject() {
+    if(!this.sharedService.getClassNumber()){
+      this.classNumber = '6';
+    }
+    else{
+      this.classNumber = this.sharedService.getClassNumber();
+    }
 
-    this.classNumber = this.sharedService.getClassNumber();
-    this.subject = this.sharedService.getSubjectName();
+    if(!this.sharedService.getSubjectName()){
+      this.subject = 'History';
+    }else{
+      this.subject = this.sharedService.getSubjectName();
+    }
+    
 
+  }
 
+  getTrustedHtml(html: string): SafeHtml {
+    return this.sanitizer.bypassSecurityTrustHtml(html);
   }
 
 
@@ -91,7 +106,7 @@ export class DownloadPdfComponent implements OnInit {
       .subscribe(
         response => {
           this.List_PDF = response;
-          console.log(response)
+          //console.log(response)
           for (const pdf of response) {
             this.paymentSerService.ispaid(this.classNumber, this.subject, this.userId,pdf.id)
               .subscribe(
@@ -176,8 +191,8 @@ export class DownloadPdfComponent implements OnInit {
     this.pdfId = id;
     let options: any = {
       "key": 'rzp_test_P3jHndI0QZ9CEK',
-      "amount": 100,
-      "name": "Company Name",
+      "amount": 4900,
+      "name": "Dridh Sankalp",
       "description": "dummy data",
       "image": "./assets/images/logo.png",
       "modal": {

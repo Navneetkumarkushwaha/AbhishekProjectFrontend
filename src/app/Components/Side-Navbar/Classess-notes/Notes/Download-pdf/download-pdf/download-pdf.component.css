@@ -22,13 +22,17 @@
   margin-top: 20px;
 }
 
-
+.btn-class{
+  margin-left: 75%;
+}
 
 
 @media (max-width: 576px) {
   .box {
     margin-left: 0!important;
-
+  }
+  .btn-class{
+    margin-left: 50%;
   }
 
 }
@@ -93,7 +97,6 @@
 @media (max-width: 768px) {
   .box {
     margin-left:0px!important;
-
   }
 
 }
